@@ -26,7 +26,7 @@ func InitLogger() {
 		level = slog.LevelInfo
 	}
 
-	logDir := os.Getenv("LOG_FOLDER_NAME")
+	logDir := "logs"
 
 	// Use our new Daily Writer instead of a standard os.File
 	dailyWriter := NewDailyFileWriter(logDir)

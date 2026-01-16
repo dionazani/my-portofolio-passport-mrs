@@ -6,7 +6,7 @@ import (
 	entitiy "passport-mrs-go/infrastructure/entities" // Import from entities folder
 )
 
-func InsertAppPerson(ctx context.Context, appPerson entitiy.AppPerson) error {
+func InsertAppPerson(ctx context.Context, appPerson entitiy.AppPersonEntity) error {
 
 	query := `INSERT INTO app_person (id, fullname, email, mobile_phone, created_at) 
 	          VALUES ($1, $2, $3, $4, $5)`
