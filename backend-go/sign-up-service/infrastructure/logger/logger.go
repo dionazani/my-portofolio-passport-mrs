@@ -1,12 +1,10 @@
 package infrastructure_logger
 
 import (
-	"fmt"
 	"io"
 	"log/slog"
 	"os"
 	"strings"
-	"time"
 )
 
 var AppLogger *slog.Logger
@@ -14,7 +12,7 @@ var AppLogger *slog.Logger
 // InitLogger configures the global logger based on .env settings
 
 func InitLogger() {
-	logLevel := os.Getenv("LOG_LEVE")
+	logLevel := os.Getenv("LOG_LEVEL")
 
 	var level slog.Level
 	switch strings.ToUpper(logLevel) {
@@ -28,18 +26,13 @@ func InitLogger() {
 		level = slog.LevelInfo
 	}
 
-	// 1. Create the filename based on the current date: yyyy-mm-dd_logs.txt
-	currentTime := time.Now().Format("2006-01-02")
-	fileName := fmt.Sprintf("%s_logs.txt", currentTime)
+	logDir := os.Getenv("LOG_FOLDER_NAME")
 
-	// 2. Open the file (Append mode, Create if not exists, Read/Write permissions)
-	file, err := os.OpenFile(fileName, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
-	if err != nil {
-		fmt.Printf("Failed to open log file: %v\n", err)
-	}
+	// Use our new Daily Writer instead of a standard os.File
+	dailyWriter := NewDailyFileWriter(logDir)
 
-	// 3. Create a MultiWriter to log to BOTH the Console and the File
-	multiWriter := io.MultiWriter(os.Stdout, file)
+	// MultiWriter now sends to Console + our smart DailyWriter
+	multiWriter := io.MultiWriter(os.Stdout, dailyWriter)
 
 	opts := &slog.HandlerOptions{
 		Level: level,
