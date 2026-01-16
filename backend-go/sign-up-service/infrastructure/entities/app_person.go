@@ -2,7 +2,7 @@ package infrastructure_entities
 
 import "time"
 
-type AppPerson struct {
+type AppPersonEntity struct {
 	ID          string
 	Fullname    string
 	Email       string

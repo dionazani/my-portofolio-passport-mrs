@@ -3,12 +3,13 @@ package businessContext_controller
 import (
 	"encoding/json"
 	"net/http" // New import for conversion
-	signUpModel "passport-mrs-go/business-context/user-sign-up/models"
+	signUpReqModel "passport-mrs-go/business-context/user-sign-up/models"
 	service "passport-mrs-go/business-context/user-sign-up/service"
 )
 
 func SignUpHandler(w http.ResponseWriter, r *http.Request) {
-	var signUpReq signUpModel.SignUpReq
+
+	var signUpReq signUpReqModel.SignUpReqModel
 	if err := json.NewDecoder(r.Body).Decode(&signUpReq); err != nil {
 		http.Error(w, "Invalid request", http.StatusBadRequest)
 		return
@@ -25,4 +26,5 @@ func SignUpHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(response.GetIntStatusCode())
 	json.NewEncoder(w).Encode(response)
+
 }
