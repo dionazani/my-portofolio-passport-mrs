@@ -1,7 +1,7 @@
 create table app_person (
 	id UUID,
 	fullname varchar(50) not null,
-	email varchar(50) not null,
+	email varchar(50) not null unique,
 	mobile_phone varchar(25) not null,
 	created_at timestamp default current_timestamp,
 	updated_at timestamp,

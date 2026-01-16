@@ -8,7 +8,7 @@ import (
 
 func InsertAppPerson(ctx context.Context, appPerson entitiy.AppPerson) error {
 
-	query := `INSERT INTO users (id, fullname, email, mobile_phone, created_at) 
+	query := `INSERT INTO app_person (id, fullname, email, mobile_phone, created_at) 
 	          VALUES ($1, $2, $3, $4, $5)`
 
 	_, err := infrastructure_databaseConnection.Pool.Exec(ctx, query, appPerson.ID, appPerson.Fullname, appPerson.Email, appPerson.MobilePhone, appPerson.CreatedAt)

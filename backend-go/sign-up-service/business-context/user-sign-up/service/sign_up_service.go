@@ -2,6 +2,7 @@ package userSignUp_service
 
 import (
 	"context"
+	"log/slog"
 	models "passport-mrs-go/business-context/user-sign-up/models"
 	entities "passport-mrs-go/infrastructure/entities"
 	response "passport-mrs-go/infrastructure/models"
@@ -10,6 +11,10 @@ import (
 )
 
 func SignUp(ctx context.Context, req models.SignUpReq) (response.BaseResponse, error) {
+
+	// Simple, shared logging call
+	slog.InfoContext(ctx, "Business Logic: Sign Up", "ID", req.ID, "email", req.Email)
+
 	// 1. Map: Request -> Entity (for Database)
 	appPersonEntity := entities.AppPerson{
 		ID:          req.ID,
@@ -22,6 +27,7 @@ func SignUp(ctx context.Context, req models.SignUpReq) (response.BaseResponse, e
 	// 2. Persist to Database
 	err := repository.InsertAppPerson(ctx, appPersonEntity)
 	if err != nil {
+		slog.ErrorContext(ctx, "Failed to save user to database", "error", err, "ID", req.ID, "email", req.Email)
 		return response.BaseResponse{}, err
 	}
 
