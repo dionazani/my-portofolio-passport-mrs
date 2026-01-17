@@ -1,13 +1,15 @@
-package userSignUp_service
+package businessContext_service_signUp
 
 import (
 	"context"
 	"fmt"
 	"log/slog"
 	models "passport-mrs-go/business-context/user-sign-up/models"
-	entities "passport-mrs-go/infrastructure/entities"
+	repository_bc "passport-mrs-go/business-context/user-sign-up/repository_bc"
+	entity "passport-mrs-go/infrastructure/entities"
+	infrastructure_entity "passport-mrs-go/infrastructure/entities"
 	response "passport-mrs-go/infrastructure/models"
-	repository "passport-mrs-go/infrastructure/repositories"
+	utils "passport-mrs-go/utils"
 	"time"
 
 	"github.com/google/uuid"
@@ -40,23 +42,62 @@ func SignUp(ctx context.Context, req models.SignUpReqModel) (response.BaseRespon
 		return response.BaseResponse{}, err
 	}
 
-	// 1. Map: Request -> Entity (for Database)
-	signUpEntity := entities.SignUpEntity{
+	// signUpEntity
+	signUpEntity := entity.SignUpEntity{
 		ID:          signUpId,
+		Fullname:    req.Fullname,
+		SignUpFrom:  req.SignUpFrom,
+		Email:       emailValue,
+		MobilePhone: mobilePhoneValue,
+		CreatedAt:   time.Now(),
+	}
+
+	// appPersonEntity
+	appPersonIDGenerated := utils.GenerateUUIDV7()
+	appPersonEntity := entity.AppPersonEntity{
+		ID:          appPersonIDGenerated,
 		Fullname:    req.Fullname,
 		Email:       emailValue,
 		MobilePhone: mobilePhoneValue,
 		CreatedAt:   time.Now(),
 	}
 
-	// 2. Persist to Database
-	err = repository.InsertSignUp(ctx, signUpEntity)
-	if err != nil {
-		slog.ErrorContext(ctx, "Failed to save user sign-up to database", "error", err, "ID", req.ID, "email", req.Email)
-		return response.BaseResponse{}, err
+	// signUpApprPersonEntity
+	signUpApprPersonEntity := infrastructure_entity.SignUpAppPersonEntity{
+		SignUpId:    signUpEntity.ID,
+		AppPersonId: appPersonEntity.ID,
 	}
 
-	// 4. Wrap into BaseResponse (The Metadata part)
+	// appUser
+	appUserIDGenerated := utils.GenerateUUIDV7()
+	appUserEntity := entity.AppUserEntity{
+		ID:                     appUserIDGenerated,
+		AppPersonId:            appPersonIDGenerated,
+		AppUserRole:            "REG",
+		AppPassword:            "MyPassword",
+		MustChangePassword:     0,
+		NextchangePasswordDate: time.Now().AddDate(0, 0, 120),
+		IsLock:                 0,
+		CreatedAt:              time.Now(),
+	}
+
+	// Persist to Database
+	err = repository_bc.AddNewSignUp(ctx, signUpEntity, appPersonEntity, signUpApprPersonEntity, appUserEntity)
+	if err != nil {
+		slog.ErrorContext(ctx, "BusinessContext: Failed SignUp", "error", err, "ID", req.ID, "email", req.Email)
+
+		// Return 500 Internal Server Error
+		response := response.BaseResponse{
+			HTTPStatusCode: "500",
+			Status:         "fail",
+			Timestamp:      time.Now().Format(time.RFC3339), // Standard ISO timestamp
+			Data:           signUpEntity.ID,
+		}
+
+		return response, nil
+	}
+
+	// Wrap into BaseResponse (The Metadata part)
 	response := response.BaseResponse{
 		HTTPStatusCode: "200",
 		Status:         "success",

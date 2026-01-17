@@ -1,4 +1,4 @@
-package businessContext_userSignUp_models
+package businessContext_model_signUp
 
 // SignUp represents the sign_up table structure
 type SignUpReqModel struct {

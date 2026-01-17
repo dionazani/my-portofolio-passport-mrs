@@ -1,10 +1,10 @@
-package businessContext_controller
+package businessContext_controller_signUp
 
 import (
 	"encoding/json"
 	"net/http" // New import for conversion
 	signUpReqModel "passport-mrs-go/business-context/user-sign-up/models"
-	service "passport-mrs-go/business-context/user-sign-up/service"
+	signUpService "passport-mrs-go/business-context/user-sign-up/service"
 )
 
 func SignUpHandler(w http.ResponseWriter, r *http.Request) {
@@ -16,7 +16,7 @@ func SignUpHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// 1. Get the response from the Service
-	response, err := service.SignUp(r.Context(), signUpReq)
+	response, err := signUpService.SignUp(r.Context(), signUpReq)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
