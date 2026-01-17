@@ -1,9 +1,13 @@
-package infrastructure_entities
+package infrastructure_entity
 
-import "time"
+import (
+	"time"
+
+	"github.com/google/uuid"
+)
 
 type AppPersonEntity struct {
-	ID          string
+	ID          uuid.UUID
 	Fullname    string
 	Email       string
 	MobilePhone string

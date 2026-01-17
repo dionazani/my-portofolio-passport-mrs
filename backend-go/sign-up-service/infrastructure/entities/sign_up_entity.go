@@ -1,4 +1,4 @@
-package infrastructure_entities
+package infrastructure_entity
 
 import (
 	"time"

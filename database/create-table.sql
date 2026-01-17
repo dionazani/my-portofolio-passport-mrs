@@ -9,7 +9,7 @@ CREATE TABLE sign_up (
     -- Ensures that at least one contact method is provided
     CONSTRAINT chk_contact_presence CHECK (email IS NOT NULL OR mobile_phone IS NOT NULL)
 );
-
+-- sign_up, app_person, app_person, app_user
 -- 2. Person Table (The core identity)
 CREATE TABLE app_person (
     id UUID PRIMARY KEY,
@@ -33,10 +33,10 @@ CREATE TABLE app_user (
     id UUID PRIMARY KEY,
     app_person_id UUID NOT NULL UNIQUE, -- Link to app_person
     app_user_role CHAR(3) NOT NULL,
-    password_hash VARCHAR(300) NOT NULL, -- Renamed for clarity
-    must_change_password BOOLEAN DEFAULT FALSE,
-    next_change_password_date DATE,
-    is_locked BOOLEAN DEFAULT FALSE,
+    app_password VARCHAR(300) NOT NULL, -- Renamed for clarity
+    must_change_password int default 0,
+    next_change_password_date DATE DEFAULT CURRENT_DATE + INTERVAL '30 days',
+    is_locked int DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (app_person_id) REFERENCES app_person (id)
 );
