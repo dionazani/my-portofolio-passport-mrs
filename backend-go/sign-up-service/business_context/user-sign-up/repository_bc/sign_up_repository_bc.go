@@ -1,4 +1,4 @@
-package businessContext_repository_signUp
+package business_context_user_sign_up_repository_bc
 
 import (
 	"context"

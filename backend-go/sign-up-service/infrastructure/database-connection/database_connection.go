@@ -1,4 +1,4 @@
-package infrastructure_databaseConnection
+package infrastructure_database_connection
 
 import (
 	"context"

@@ -1,11 +1,11 @@
-package businessContext_service_signUp
+package business_context_user_sign_up_service
 
 import (
 	"context"
 	"fmt"
 	"log/slog"
-	models "passport-mrs-go-sign-up-service/business-context/user-sign-up/models"
-	repository_bc "passport-mrs-go-sign-up-service/business-context/user-sign-up/repository_bc"
+	models "passport-mrs-go-sign-up-service/business_context/user-sign-up/models"
+	repository_bc "passport-mrs-go-sign-up-service/business_context/user-sign-up/repository_bc"
 	entity "passport-mrs-go-sign-up-service/infrastructure/entities"
 	infrastructure_entity "passport-mrs-go-sign-up-service/infrastructure/entities"
 	response "passport-mrs-go-sign-up-service/infrastructure/models"

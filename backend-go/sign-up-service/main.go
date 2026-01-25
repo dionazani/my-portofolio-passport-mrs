@@ -5,10 +5,10 @@ import (
 	"net/http"
 	"os"
 
-	databaseConnection "passport-mrs-go/infrastructure/database-connection"
-	infrastructure_logger "passport-mrs-go/infrastructure/logger"
-	router "passport-mrs-go/infrastructure/router"
-	middleware "passport-mrs-go/middleware"
+	databaseConnection "passport-mrs-go-sign-up-service/infrastructure/database-connection"
+	infrastructure_logger "passport-mrs-go-sign-up-service/infrastructure/logger"
+	router "passport-mrs-go-sign-up-service/infrastructure/router"
+	middleware "passport-mrs-go-sign-up-service/middleware"
 
 	"github.com/joho/godotenv"
 )

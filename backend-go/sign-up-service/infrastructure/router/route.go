@@ -3,7 +3,7 @@ package route
 import (
 	"net/http"
 	"os"
-	businessContext_controller "passport-mrs-go-sign-up-service/business-context/user-sign-up/controllers"
+	businessContext_controller "passport-mrs-go-sign-up-service/business_context/user-sign-up/controllers"
 )
 
 // RegisterRoutes sets up all the endpoints for this business context
