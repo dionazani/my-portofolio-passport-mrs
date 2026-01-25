@@ -3,8 +3,8 @@ package businessContext_repository_signUp
 import (
 	"context"
 	"log/slog"
-	infrastructure_databaseConnection "passport-mrs-go/infrastructure/database-connection"
-	infrastructure_entity "passport-mrs-go/infrastructure/entities"
+	infrastructure_databaseConnection "passport-mrs-go-sign-up-service/infrastructure/database-connection"
+	infrastructure_entity "passport-mrs-go-sign-up-service/infrastructure/entities"
 )
 
 func AddNewSignUp(ctx context.Context,

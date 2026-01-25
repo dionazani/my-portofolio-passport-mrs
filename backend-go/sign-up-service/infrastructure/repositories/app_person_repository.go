@@ -2,8 +2,8 @@ package infrastructure_repository
 
 import (
 	"context"
-	infrastructure_databaseConnection "passport-mrs-go/infrastructure/database-connection"
-	infrastructure_entitiy "passport-mrs-go/infrastructure/entities" // Import from entities folder
+	infrastructure_databaseConnection "passport-mrs-go-sign-up-service/infrastructure/database-connection"
+	infrastructure_entitiy "passport-mrs-go-sign-up-service/infrastructure/entities" // Import from entities folder
 )
 
 func InsertAppPerson(ctx context.Context, appPerson infrastructure_entitiy.AppPersonEntity) error {
