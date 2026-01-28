@@ -10,7 +10,7 @@ type BaseResponse struct {
 	Data           interface{} `json:"data,omitempty"` // Can hold any type (User, etc.)
 }
 
-// In models/base_response.go
+// In model/base_response.go
 func (b *BaseResponse) GetIntStatusCode() int {
 	code, _ := strconv.Atoi(b.HTTPStatusCode)
 	return code

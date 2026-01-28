@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
-	models "passport-mrs-go-sign-up-service/business_context/user_sign_up/models"
+	models "passport-mrs-go-sign-up-service/business_context/user_sign_up/model"
 	repository_bc "passport-mrs-go-sign-up-service/business_context/user_sign_up/repository_bc"
 	entity "passport-mrs-go-sign-up-service/infrastructure/entities"
 	infrastructure_entity "passport-mrs-go-sign-up-service/infrastructure/entities"
