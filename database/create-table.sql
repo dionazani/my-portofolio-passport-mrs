@@ -40,3 +40,13 @@ CREATE TABLE app_user (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (app_person_id) REFERENCES app_person (id)
 );
+
+-- QUERY
+select *
+from app_person;
+
+select app_person.email,
+		app_user.app_password,
+		app_user.id as app_user_id
+from app_person inner join app_user on app_person.id = app_user.app_person_id
+where app_person.email = 'dion.azani@gmail.com';

@@ -3,7 +3,7 @@ package business_context_user_sign_up_repository_bc
 import (
 	"context"
 	"log/slog"
-	infrastructure_databaseConnection "passport-mrs-go-sign-up-service/infrastructure/database-connection"
+	infrastructure_databaseConnection "passport-mrs-go-sign-up-service/infrastructure/database_connection"
 	infrastructure_entity "passport-mrs-go-sign-up-service/infrastructure/entities"
 )
 

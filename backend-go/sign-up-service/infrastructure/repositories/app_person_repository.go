@@ -2,7 +2,7 @@ package infrastructure_repository
 
 import (
 	"context"
-	infrastructure_databaseConnection "passport-mrs-go-sign-up-service/infrastructure/database-connection"
+	infrastructure_databaseConnection "passport-mrs-go-sign-up-service/infrastructure/database_connection"
 	infrastructure_entitiy "passport-mrs-go-sign-up-service/infrastructure/entities" // Import from entities folder
 )
 

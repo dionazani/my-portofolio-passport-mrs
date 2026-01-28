@@ -3,8 +3,8 @@ package business_context_user_sign_up_controller
 import (
 	"encoding/json"
 	"net/http" // New import for conversion
-	signUpReqModel "passport-mrs-go-sign-up-service/business_context/user-sign-up/models"
-	signUpService "passport-mrs-go-sign-up-service/business_context/user-sign-up/service"
+	signUpReqModel "passport-mrs-go-sign-up-service/business_context/user_sign_up/models"
+	signUpService "passport-mrs-go-sign-up-service/business_context/user_sign_up/service"
 )
 
 func SignUpHandler(w http.ResponseWriter, r *http.Request) {
