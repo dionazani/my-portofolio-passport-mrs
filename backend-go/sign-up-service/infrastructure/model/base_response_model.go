@@ -2,8 +2,8 @@ package infrastructure_model
 
 import "strconv"
 
-// BaseResponse is the standard wrapper for all API responses
-type BaseResponse struct {
+// BaseResponseModel is the standard wrapper for all API responses
+type BaseResponseModel struct {
 	HTTPStatusCode string      `json:"httpStatusCode"`
 	Status         string      `json:"status"`
 	Timestamp      string      `json:"timestamp"`
@@ -11,7 +11,7 @@ type BaseResponse struct {
 }
 
 // In model/base_response.go
-func (b *BaseResponse) GetIntStatusCode() int {
+func (b *BaseResponseModel) GetIntStatusCode() int {
 	code, _ := strconv.Atoi(b.HTTPStatusCode)
 	return code
 }

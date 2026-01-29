@@ -8,14 +8,14 @@ import (
 	repository_bc "passport-mrs-go-sign-up-service/business_context/user_sign_up/repository_bc"
 	entity "passport-mrs-go-sign-up-service/infrastructure/entities"
 	infrastructure_entity "passport-mrs-go-sign-up-service/infrastructure/entities"
-	response "passport-mrs-go-sign-up-service/infrastructure/models"
+	response "passport-mrs-go-sign-up-service/infrastructure/model"
 	utils "passport-mrs-go-sign-up-service/utils"
 	"time"
 
 	"github.com/google/uuid"
 )
 
-func SignUp(ctx context.Context, req models.SignUpReqModel) (response.BaseResponse, error) {
+func SignUp(ctx context.Context, req models.SignUpRequestModel) (response.BaseResponseModel, error) {
 
 	// Simple, shared logging call
 	slog.InfoContext(ctx, "Business Logic: Sign Up", "ID", req.ID, "email", req.Email)
@@ -39,7 +39,7 @@ func SignUp(ctx context.Context, req models.SignUpReqModel) (response.BaseRespon
 	if err != nil {
 		// Handle the error (e.g., log it, return from function, etc.)
 		fmt.Printf("Error parsing UUID: %v\n", err)
-		return response.BaseResponse{}, err
+		return response.BaseResponseModel{}, err
 	}
 
 	// signUpEntity
@@ -70,11 +70,26 @@ func SignUp(ctx context.Context, req models.SignUpReqModel) (response.BaseRespon
 
 	// appUser
 	appUserIDGenerated := utils.GenerateUUIDV7()
+	appPassword, err := utils.HashPassword(req.Password)
+	if err != nil {
+		slog.ErrorContext(ctx, "BusinessContext: Failed SignUp", "error", err, "ID", req.ID, "email", req.Email)
+
+		// Return 500 Internal Server Error
+		response := response.BaseResponseModel{
+			HTTPStatusCode: "500",
+			Status:         "fail",
+			Timestamp:      time.Now().Format(time.RFC3339), // Standard ISO timestamp
+			Data:           signUpEntity.ID,
+		}
+
+		return response, nil
+	}
+
 	appUserEntity := entity.AppUserEntity{
 		ID:                     appUserIDGenerated,
 		AppPersonId:            appPersonIDGenerated,
 		AppUserRole:            "REG",
-		AppPassword:            "MyPassword",
+		AppPassword:            appPassword,
 		MustChangePassword:     0,
 		NextchangePasswordDate: time.Now().AddDate(0, 0, 120),
 		IsLock:                 0,
@@ -87,7 +102,7 @@ func SignUp(ctx context.Context, req models.SignUpReqModel) (response.BaseRespon
 		slog.ErrorContext(ctx, "BusinessContext: Failed SignUp", "error", err, "ID", req.ID, "email", req.Email)
 
 		// Return 500 Internal Server Error
-		response := response.BaseResponse{
+		response := response.BaseResponseModel{
 			HTTPStatusCode: "500",
 			Status:         "fail",
 			Timestamp:      time.Now().Format(time.RFC3339), // Standard ISO timestamp
@@ -97,8 +112,8 @@ func SignUp(ctx context.Context, req models.SignUpReqModel) (response.BaseRespon
 		return response, nil
 	}
 
-	// Wrap into BaseResponse (The Metadata part)
-	response := response.BaseResponse{
+	// Wrap into BaseResponseModel (The Metadata part)
+	response := response.BaseResponseModel{
 		HTTPStatusCode: "200",
 		Status:         "success",
 		Timestamp:      time.Now().Format(time.RFC3339), // Standard ISO timestamp

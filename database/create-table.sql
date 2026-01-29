@@ -20,6 +20,8 @@ CREATE TABLE app_person (
     updated_at TIMESTAMP
 );
 
+-- create index idx_app_person_email on app_person (email);
+
 -- 3. Mapping Table (Tracks which sign-up record created which person)
 CREATE TABLE sign_up_app_person (
     sign_up_id UUID PRIMARY KEY, -- Changed to PK if 1:1 relationship
@@ -41,12 +43,11 @@ CREATE TABLE app_user (
     FOREIGN KEY (app_person_id) REFERENCES app_person (id)
 );
 
--- QUERY
-select *
-from app_person;
-
-select app_person.email,
-		app_user.app_password,
-		app_user.id as app_user_id
-from app_person inner join app_user on app_person.id = app_user.app_person_id
-where app_person.email = 'dion.azani@gmail.com';
+create table app_user_activate (
+	id UUID primary key,
+	app_user_id UUID not null,
+	activate_by varchar(6) not null,
+	activate_date date,
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	foreign key (app_user_id) references app_user (id)
+);

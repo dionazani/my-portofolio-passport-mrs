@@ -6,7 +6,7 @@ import (
 	"log/slog" // Use the new structured log package
 	"net/http"
 	"os"
-	infrastructure_logger "passport-mrs-go/infrastructure/logger"
+	infrastructure_logger "passport-mrs-go-sign-up-service/infrastructure/logger"
 	"strings"
 	"time"
 )

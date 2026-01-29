@@ -9,7 +9,7 @@ import (
 
 func SignUpHandler(w http.ResponseWriter, r *http.Request) {
 
-	var signUpReq signUpReqModel.SignUpReqModel
+	var signUpReq signUpReqModel.SignUpRequestModel
 	if err := json.NewDecoder(r.Body).Decode(&signUpReq); err != nil {
 		http.Error(w, "Invalid request", http.StatusBadRequest)
 		return
