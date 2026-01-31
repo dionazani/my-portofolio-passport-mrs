@@ -1,4 +1,4 @@
-package database_connection
+package infrastructure_database_connection
 
 import (
 	"fmt"
