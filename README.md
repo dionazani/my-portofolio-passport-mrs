@@ -19,5 +19,9 @@ January 16th 2026, 11:00:
 1. Design database for User Sign Up.
 2. Create Repository and Business Context.
    
-January 17th 2026 12:46:
+### Status
 1.  Users should be able to sign up. Done
+2.  Users should be login. Done (without JWT)
+
+### API Collection
+https://web.postman.co/workspace/My-Workspace~69337442-700a-4ec7-85eb-9ca980d54a45/collection/5032744-9e225fb2-2831-46ce-b2f3-b6197deb8a32?action=share&source=copy-link&creator=5032744
