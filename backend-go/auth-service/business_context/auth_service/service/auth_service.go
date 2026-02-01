@@ -1,11 +1,11 @@
-package business_context_auth_service_service
+package business_context_service_auth_service
 
 import (
 	model "passport-mrs-go-auth-service/business_context/auth_service/model"
 	repository "passport-mrs-go-auth-service/business_context/auth_service/repositories"
 	infrastructure_model "passport-mrs-go-auth-service/infrastructure/model"
+	infrastructure_repository "passport-mrs-go-auth-service/infrastructure/repositories"
 	infrastructure_security "passport-mrs-go-auth-service/infrastructure/security"
-
 	"time"
 )
 
@@ -32,8 +32,8 @@ func LoginService(req model.UserLoginRequestModel) infrastructure_model.BaseResp
 		}
 	}
 
-	// 3. Generate JWT Token
-	token, err2 := infrastructure_security.GenerateToken(userLoginEntity.AppUserId)
+	// 3. Generate JWT AccessToken
+	accessToken, err2 := infrastructure_security.GenerateAccessToken(userLoginEntity.AppUserId)
 	if err2 != nil {
 		return infrastructure_model.BaseResponse{
 			HTTPStatusCode: "500",
@@ -43,14 +43,37 @@ func LoginService(req model.UserLoginRequestModel) infrastructure_model.BaseResp
 		}
 	}
 
-	// 4. Success Response
+	// 4. Generate JWT RefreshToken
+	refreshToken, err3 := infrastructure_security.GenerateRefreshToken()
+	if err3 != nil {
+		return infrastructure_model.BaseResponse{
+			HTTPStatusCode: "500",
+			Status:         "error",
+			Timestamp:      time.Now().Format(time.RFC3339),
+			Data:           "Failed to generate session",
+		}
+	}
+
+	// 5. Save RefreshToken
+	err4 := infrastructure_repository.SaveRefreshToken(userLoginEntity.AppUserId, refreshToken)
+	if err4 != nil {
+		return infrastructure_model.BaseResponse{
+			HTTPStatusCode: "500",
+			Status:         "error",
+			Timestamp:      time.Now().Format(time.RFC3339),
+			Data:           "System failed to persist session",
+		}
+	}
+
+	// 6. Success Response
 	return infrastructure_model.BaseResponse{
 		HTTPStatusCode: "200",
 		Status:         "success",
 		Timestamp:      time.Now().Format(time.RFC3339),
 		Data: model.UserLoginResponseModel{
-			AppUserId: userLoginEntity.AppUserId,
-			Token:     token,
+			AppUserId:    userLoginEntity.AppUserId,
+			Token:        accessToken,
+			RefreshToken: refreshToken,
 		}, // Returning the ID as requested
 	}
 }

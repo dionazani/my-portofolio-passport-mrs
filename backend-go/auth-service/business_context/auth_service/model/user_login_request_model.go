@@ -9,7 +9,7 @@ type UserLoginRequestModel struct {
 
 // HashPassword takes a password and returns the bcrypt hash in a string format.
 func HashPassword(password string) (string, error) {
-	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
+	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 10)
 	return string(bytes), err
 }
 

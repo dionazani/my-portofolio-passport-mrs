@@ -1,14 +1,16 @@
 package infrastructure_security
 
 import (
+	"crypto/rand"
+	"encoding/hex"
 	"os"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
 )
 
-// GenerateToken creates a new JWT for a specific User ID
-func GenerateToken(userId string) (string, error) {
+// GenerateAccessToken creates a new JWT for a specific User ID
+func GenerateAccessToken(userId string) (string, error) {
 
 	// secret key should in .env
 	secretKey := os.Getenv("SECRET_KEY")
@@ -28,4 +30,13 @@ func GenerateToken(userId string) (string, error) {
 
 	// Sign the token with the secret key
 	return token.SignedString([]byte(secretKey))
+}
+
+func GenerateRefreshToken() (string, error) {
+	b := make([]byte, 32)
+	if _, err := rand.Read(b); err != nil {
+		return "", err
+	}
+
+	return hex.EncodeToString(b), nil
 }

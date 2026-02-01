@@ -1,10 +1,12 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
 	"os"
-	controller "passport-mrs-go-auth-service/business_context/auth_service/controller"
+	controller_auth "passport-mrs-go-auth-service/business_context/auth_service/controller"
+	controller_refresh "passport-mrs-go-auth-service/business_context/refresh_service/controller"
 	database_connection "passport-mrs-go-auth-service/infrastructure/database_connection"
+
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -25,7 +27,10 @@ func main() {
 	auth := r.Group("/api/v1/auth")
 	{
 		// Map the POST request to your AuthController
-		auth.POST("/login", controller.AuthController)
+		auth.POST("/login", controller_auth.AuthController)
+
+		// Map the POST request to your AuthController
+		auth.POST("/refresh", controller_refresh.RefreshTokenController)
 	}
 
 	port := os.Getenv("PORT")

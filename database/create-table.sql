@@ -20,7 +20,7 @@ CREATE TABLE app_person (
     updated_at TIMESTAMP
 );
 
--- create index idx_app_person_email on app_person (email);
+create index idx_app_person_email on app_person (email);
 
 -- 3. Mapping Table (Tracks which sign-up record created which person)
 CREATE TABLE sign_up_app_person (
@@ -51,3 +51,18 @@ create table app_user_activate (
 	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	foreign key (app_user_id) references app_user (id)
 );
+
+-- drop table app_user_token;
+create table app_user_token (
+	id UUID primary key,
+	app_user_id UUID not null,
+	token_type varchar(25) default 'refresh',
+	token_user varchar(200) not null,
+	expire_at TIMESTAMP not null,
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	foreign key (app_user_id) references app_user (id),
+	unique (app_user_id, token_type)
+);
+
+CREATE INDEX idx_app_person_email ON app_person(email);
+
